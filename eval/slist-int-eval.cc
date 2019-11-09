@@ -1,8 +1,9 @@
 //========================================================================
-// slist-int-reverse-eval.c
+// slist-int-eval.c
 //========================================================================
-// This program evalutes the performance of SListInt::reverse by running
-// multiple trials and averaging the elapsed run times.
+// This program evalutes the performance of SListInt::push_front and
+// SListInt::reverse by running multiple trials and averaging the elapsed
+// run times.
 //
 
 #include <stdio.h>
@@ -18,10 +19,10 @@
 void print_help()
 {
   printf(
-    "usage: ./slist-int-reverse-eval <size>\n\n"
-    "Evaluation program for SListInt::reverse\n\n"
+    "usage: ./slist-int-eval <size>\n\n"
+    "Evaluation program for SListInt::push_front and SListInt::reverse\n\n"
     "positional arguments:\n"
-    "  size        Size of the input array. It has to be within (0, 50000].\n"
+    "  size   Size of the input array. It has to be within (0, 50000].\n"
   );
 }
 
@@ -52,6 +53,28 @@ int main( int argc, char** argv )
     }
   }
 
+  // We first try a single trial and verify the result before running the
+  // actual experiment.
+
+  SListInt lst_verify;
+  for ( size_t i = 0; i < size; i++ )
+    lst_verify.push_front( i );
+
+  // Reverse list
+
+  lst_verify.reverse();
+
+  int ref = 0;
+  for ( size_t i = 0; i < size; i++ ) {
+    if ( !(lst_verify.at(i) == ref) ) {
+      printf( "Error: List not reversed correctly!\n" );
+      return 1;
+    }
+    ref += 1;
+  }
+
+  printf("Verfication passed\n");
+
   // Run many trials so we can average the run times. Within each trial,
   // run enough subtrials so as to avoid precision issues with
   // gettimeofday().
@@ -62,31 +85,38 @@ int main( int argc, char** argv )
   double elapsed;
   double elapsed_total = 0.0;
 
-  // Fill list with decreasing values
-
-  SListInt lst;
-  for ( size_t i = 0; i < size; i++ )
-    lst.push_front(i);
-
-  printf( "Sort with size %d\n", size );
+  printf( "Fill and reverse with size %d\n", size );
 
   // Timing loop
 
   for ( int i = 0; i < ntrials; i++ ) {
 
     // Start tracking time
+
     ece2400::timer_reset();
 
     // Execute nsubtrails
+
     for ( int j = 0; j < nsubtrials; j++ ) {
+
+      // Fill list with decreasing values
+
+      SListInt lst;
+      for ( size_t i = 0; i < size; i++ )
+        lst.push_front( i );
+
+      // Reverse list
+
       lst.reverse();
     }
 
     // Stop tracking time
+
     elapsed = ece2400::timer_get_elapsed();
 
     // Accumulate result
-    elapsed_total    += elapsed;
+
+    elapsed_total += elapsed;
 
     printf( "Trial %d: elapsed time = %f second\n", i, elapsed );
   }
@@ -97,18 +127,5 @@ int main( int argc, char** argv )
 
   printf( "Average: elapsed time = %f second\n", elapsed_avg );
 
-  // Verify the results. As long as nsubtrials is odd, then the result
-  // should be just be a list of ints increasing from 0 to size.
-
-  int ref = 0;
-  for ( size_t i = 0; i < size; i++ ) {
-    if ( lst.at(i) != ref ) {
-      printf( "Error: List not reversed correctly!\n" );
-      return 1;
-    }
-    ref += 1;
-  }
-
-  printf("Verfication passed\n");
   return 0;
 }

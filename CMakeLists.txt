@@ -10,8 +10,8 @@
 
 set(SRC_FILES
   ece2400-stdlib.cc
-  SListInt.cc
   types-dpoly.cc
+  SListInt.cc
   SListIObj.cc
 )
 
@@ -22,8 +22,8 @@ set(TEST_ALL_FILES
 )
 
 set(EVAL_FILES
-  slist-int-reverse-eval.cc
-  slist-iobj-reverse-eval.cc
+  slist-int-eval.cc
+  slist-iobj-eval.cc
 )
 
 #=========================================================================
