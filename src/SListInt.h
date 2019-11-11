@@ -45,9 +45,6 @@ class SListInt
 
  private:
 
-  void copy( const SListInt& lst );
-  void clear();
-
   struct Node                // nested struct declaration
   {
     int   value;

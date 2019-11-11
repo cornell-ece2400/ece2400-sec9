@@ -46,9 +46,6 @@ class SListIObj
 
  private:
 
-  void copy( const SListIObj& lst );
-  void clear();
-
   struct Node                // nested struct declaration
   {
     IObject* obj_p;

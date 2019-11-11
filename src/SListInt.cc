@@ -22,7 +22,11 @@ SListInt::SListInt()
 
 SListInt::~SListInt()
 {
-  clear();
+  while ( m_head_p != nullptr ) {
+    Node* temp_p = m_head_p->next_p;
+    delete m_head_p;
+    m_head_p = temp_p;
+  }
 }
 
 //------------------------------------------------------------------------
@@ -32,7 +36,18 @@ SListInt::~SListInt()
 SListInt::SListInt( const SListInt& lst )
 {
   m_head_p = nullptr;
-  copy(lst);
+
+  // Push front all nodes from lst
+
+  Node* curr_p = lst.m_head_p;
+  while ( curr_p != nullptr ) {
+    push_front( curr_p->value );
+    curr_p = curr_p->next_p;
+  }
+
+  // Reverse list to get into proper order
+
+  reverse();
 }
 
 //------------------------------------------------------------------------
@@ -41,8 +56,25 @@ SListInt::SListInt( const SListInt& lst )
 
 SListInt& SListInt::operator=( const SListInt& lst )
 {
-  clear();
-  copy(lst);
+  // Delete all of the current nodes first
+
+  while ( m_head_p != nullptr ) {
+    Node* temp_p = m_head_p->next_p;
+    delete m_head_p;
+    m_head_p = temp_p;
+  }
+
+  // Push front all nodes from lst
+
+  Node* curr_p = lst.m_head_p;
+  while ( curr_p != nullptr ) {
+    push_front( curr_p->value );
+    curr_p = curr_p->next_p;
+  }
+
+  // Reverse list to get into proper order
+
+  reverse();
   return *this;
 }
 
@@ -121,32 +153,5 @@ void SListInt::print() const
     curr_p = curr_p->next_p;
   }
   std::printf( "\n" );
-}
-
-//------------------------------------------------------------------------
-// SListInt::copy
-//------------------------------------------------------------------------
-
-void SListInt::copy( const SListInt& lst )
-{
-  Node* curr_p = lst.m_head_p;
-  while ( curr_p != nullptr ) {
-    push_front( curr_p->value );
-    curr_p = curr_p->next_p;
-  }
-  reverse();
-}
-
-//------------------------------------------------------------------------
-// SListInt::clear
-//------------------------------------------------------------------------
-
-void SListInt::clear()
-{
-  while ( m_head_p != nullptr ) {
-    Node* temp_p = m_head_p->next_p;
-    delete m_head_p;
-    m_head_p = temp_p;
-  }
 }
 
