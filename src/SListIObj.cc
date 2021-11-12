@@ -29,9 +29,6 @@ SListIObj::~SListIObj()
     // Delete the node
     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-    delete m_head_p->obj_p;
-    delete m_head_p;
-
     m_head_p = temp_p;
   }
 }
@@ -73,9 +70,6 @@ SListIObj& SListIObj::operator=( const SListIObj& lst )
   // Handle self-assignment correctly!
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-  if ( this == &lst )
-    return *this;
-
   // Delete all nodes in this list.
 
   while ( m_head_p != nullptr ) {
@@ -112,11 +106,6 @@ void SListIObj::push_front( const IObject& v )
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement push_front
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-  Node* new_node_p   = new Node;
-  new_node_p->obj_p  = v.clone();
-  new_node_p->next_p = m_head_p;
-  m_head_p           = new_node_p;
 }
 
 //------------------------------------------------------------------------
@@ -144,12 +133,7 @@ IObject* SListIObj::at( int idx ) const
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement at
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-  Node* curr_p = m_head_p;
-  for ( int i = 0; i < idx; i++ )
-    curr_p = curr_p->next_p;
-
-  return curr_p->obj_p;
+  return nullptr;
 }
 
 //------------------------------------------------------------------------
@@ -169,19 +153,6 @@ void SListIObj::reverse_v1()
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement reverse_v1
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-  int n = size();
-
-  for ( int i = 0; i < n/2; i++ ) {
-    int lo = i;
-    int hi = (n-1) - i;
-
-    // swap lo and hi elements
-    IObject* tmp = at(lo)->clone();
-    *at(lo) = *at(hi);
-    *at(hi) = *tmp;
-    delete tmp;
-  }
 }
 
 //------------------------------------------------------------------------
@@ -209,14 +180,6 @@ void SListIObj::reverse_v2()
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement step 3
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-  int   idx0 = 0;
-  Node* curr0_p = m_head_p;
-  while ( curr0_p != nullptr ) {
-    tmp[idx0] = curr0_p->obj_p;
-    curr0_p   = curr0_p->next_p;
-    idx0++;
-  }
 
   // 4. Iterate through list and copy each item from array in reverse
 
