@@ -20,6 +20,7 @@ class IObject
   virtual bool     eq( const IObject& rhs ) const = 0;
   virtual bool     lt( const IObject& rhs ) const = 0;
   virtual void     print()                  const = 0;
+  virtual IObject& operator=( const IObject& rhs ) = 0;
 };
 
 bool operator==( const IObject& lhs, const IObject& rhs );
@@ -34,13 +35,14 @@ class Integer : public IObject
  public:
   Integer();
   Integer( int data );
-  Integer( const Integer& x );
   ~Integer();
 
   Integer* clone()                  const;
   bool     eq( const IObject& rhs ) const;
   bool     lt( const IObject& rhs ) const;
   void     print()                  const;
+
+  Integer& operator=( const IObject& rhs );
 
  private:
   int m_data;
@@ -55,8 +57,9 @@ class Double : public IObject
  public:
   Double();
   Double( double data     );
-  Double( const Double& x );
   ~Double();
+
+  Double& operator=( const IObject& rhs );
 
   Double*  clone()                  const;
   bool     eq( const IObject& rhs ) const;
@@ -77,8 +80,9 @@ class Complex : public IObject
  public:
   Complex();
   Complex( double real, double imag );
-  Complex( const Complex& x );
   ~Complex();
+
+  Complex& operator=( const IObject& rhs );
 
   Complex* clone()                  const;
   bool     eq( const IObject& rhs ) const;

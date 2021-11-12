@@ -26,7 +26,6 @@ bool operator<( const IObject& lhs, const IObject& rhs )
 
 Integer::Integer()                   : m_data(0)        {}
 Integer::Integer( int data )         : m_data(data)     {}
-Integer::Integer( const Integer& x ) : m_data(x.m_data) {}
 Integer::~Integer()                                     {}
 
 //------------------------------------------------------------------------
@@ -70,12 +69,23 @@ void Integer::print() const
 }
 
 //------------------------------------------------------------------------
+// Integer overloaded assignment operator
+//------------------------------------------------------------------------
+
+Integer& Integer::operator=( const IObject& rhs )
+{
+  const Integer* rhs_p = dynamic_cast<const Integer*>( &rhs );
+  if ( rhs_p != nullptr )
+    m_data = rhs_p->m_data;
+  return *this;
+}
+
+//------------------------------------------------------------------------
 // Double Constructors / Destructors
 //------------------------------------------------------------------------
 
 Double::Double()                  : m_data(0.0)      {}
 Double::Double( double data     ) : m_data(data)     {}
-Double::Double( const Double& x ) : m_data(x.m_data) {}
 Double::~Double()                                    {}
 
 //------------------------------------------------------------------------
@@ -119,12 +129,24 @@ void Double::print() const
 }
 
 //------------------------------------------------------------------------
+// Double overloaded assignment operator
+//------------------------------------------------------------------------
+
+Double& Double::operator=( const IObject& rhs )
+{
+  printf("here\n");
+  const Double* rhs_p = dynamic_cast<const Double*>( &rhs );
+  if ( rhs_p != nullptr )
+    m_data = rhs_p->m_data;
+  return *this;
+}
+
+//------------------------------------------------------------------------
 // Complex Constructors / Destructors
 //------------------------------------------------------------------------
 
 Complex::Complex()                           : m_real(0.0),  m_imag(0.0)  {}
 Complex::Complex( double real, double imag ) : m_real(real), m_imag(imag) {}
-Complex::Complex( const Complex& x ) : m_real(x.m_real), m_imag(x.m_imag) {}
 Complex::~Complex()                                                       {}
 
 //------------------------------------------------------------------------
@@ -170,5 +192,19 @@ bool Complex::lt( const IObject& rhs ) const
 void Complex::print() const
 {
   std::printf( "%f + %fi", m_real, m_imag );
+}
+
+//------------------------------------------------------------------------
+// Complex overloaded assignment operator
+//------------------------------------------------------------------------
+
+Complex& Complex::operator=( const IObject& rhs )
+{
+  const Complex* rhs_p = dynamic_cast<const Complex*>( &rhs );
+  if ( rhs_p != nullptr ) {
+    m_real = rhs_p->m_real;
+    m_imag = rhs_p->m_imag;
+  }
+  return *this;
 }
 

@@ -7,7 +7,6 @@
 #define SLIST_IOBJ_H
 
 #include "types-dpoly.h"
-#include <cstddef>
 
 class SListIObj
 {
@@ -35,10 +34,12 @@ class SListIObj
 
  public:
 
-  void           push_front( const IObject& v );
-  const IObject& at( size_t idx ) const;
-  void           reverse();
-  void           print() const;
+  void      push_front( const IObject& v );
+  int       size() const;
+  IObject*  at( int idx ) const;
+  void      reverse_v1();
+  void      reverse_v2();
+  void      print() const;
 
   //----------------------------------------------------------------------
   // Private member functions and fields

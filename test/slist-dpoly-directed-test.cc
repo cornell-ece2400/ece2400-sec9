@@ -1,12 +1,12 @@
 //========================================================================
-// list-int-directed-test.cc
+// list-dpoly-directed-test.cc
 //========================================================================
-// This file contains directed tests for ListInt-related functions.
+// This file contains directed tests for ListIObj-related functions.
 
 #include <stdlib.h>
 
 #include "ece2400-stdlib.h"
-#include "SListInt.h"
+#include "SListIObj.h"
 
 //------------------------------------------------------------------------
 // test_case_1_push_front
@@ -17,18 +17,19 @@ void test_case_1_push_front()
 {
   std::printf( "\n%s\n", __func__ );
 
-  SListInt lst;
-  lst.push_front(12);
-  lst.push_front(11);
-  lst.push_front(10);
+  SListIObj lst;
+  lst.push_front( Integer(12) );
+  lst.push_front( Integer(11) );
+  lst.push_front( Integer(10) );
 
   ECE2400_CHECK_INT_EQ( lst.size(), 3 );
 
-  int ref[] = { 10, 11, 12 };
-  for ( int i = 0; i < 3; i++ ) {
-    ECE2400_CHECK_INT_EQ( *lst.at(i), ref[i] );
+  Integer ref[] = { Integer(10), Integer(11), Integer(12) };
+  for ( size_t i = 0; i < 3; i++ ) {
+    ECE2400_CHECK_TRUE( *lst.at(i) == Integer(ref[i]) );
   }
 }
+
 
 //------------------------------------------------------------------------
 // test_case_2_push_front_longer
@@ -39,14 +40,14 @@ void test_case_2_push_front_longer()
 {
   std::printf( "\n%s\n", __func__ );
 
-  SListInt lst;
+  SListIObj lst;
   for ( int i = 0; i < 12; i++ )
-    lst.push_front(i);
+    lst.push_front( Integer(i) );
 
   ECE2400_CHECK_INT_EQ( lst.size(), 12 );
 
   for ( int i = 0; i < 12; i++ ) {
-    ECE2400_CHECK_INT_EQ( *lst.at(i), 12-i-1 );
+    ECE2400_CHECK_TRUE( *lst.at(i) == Integer(12-i-1) );
   }
 }
 
@@ -59,17 +60,16 @@ void test_case_3_reverse_v1()
 {
   std::printf( "\n%s\n", __func__ );
 
-  SListInt lst;
-  lst.push_front(12);
-  lst.push_front(11);
-  lst.push_front(10);
+  SListIObj lst;
+  lst.push_front( Integer(12) );
+  lst.push_front( Integer(11) );
+  lst.push_front( Integer(10) );
   lst.reverse_v1();
 
   ECE2400_CHECK_INT_EQ( lst.size(), 3 );
-
   int ref[] = { 12, 11, 10 };
   for ( int i = 0; i < 3; i++ ) {
-    ECE2400_CHECK_INT_EQ( *lst.at(i), ref[i] );
+    ECE2400_CHECK_TRUE( *lst.at(i) == Integer(ref[i]) );
   }
 }
 
@@ -82,15 +82,15 @@ void test_case_4_reverse_longer_v1()
 {
   std::printf( "\n%s\n", __func__ );
 
-  SListInt lst;
+  SListIObj lst;
   for ( int i = 0; i < 12; i++ )
-    lst.push_front(i);
+    lst.push_front( Integer(i) );
   lst.reverse_v1();
 
   ECE2400_CHECK_INT_EQ( lst.size(), 12 );
 
   for ( int i = 0; i < 12; i++ ) {
-    ECE2400_CHECK_INT_EQ( *lst.at(i), i );
+    ECE2400_CHECK_TRUE( *lst.at(i) == Integer(i) );
   }
 }
 
@@ -103,16 +103,16 @@ void test_case_5_reverse_reverse_v1()
 {
   std::printf( "\n%s\n", __func__ );
 
-  SListInt lst;
+  SListIObj lst;
   for ( int i = 0; i < 12; i++ )
-    lst.push_front(i);
+    lst.push_front( Integer(i) );
   lst.reverse_v1();
   lst.reverse_v1();
 
   ECE2400_CHECK_INT_EQ( lst.size(), 12 );
 
   for ( int i = 0; i < 12; i++ ) {
-    ECE2400_CHECK_INT_EQ( *lst.at(i), 12-i-1 );
+    ECE2400_CHECK_TRUE( *lst.at(i) == Integer(12-i-1) );
   }
 }
 
@@ -125,16 +125,16 @@ void test_case_6_copy()
 {
   std::printf( "\n%s\n", __func__ );
 
-  SListInt lst0;
-  lst0.push_front(12);
-  lst0.push_front(11);
-  lst0.push_front(10);
+  SListIObj lst0;
+  lst0.push_front( Integer(12) );
+  lst0.push_front( Integer(11) );
+  lst0.push_front( Integer(10) );
 
   ECE2400_CHECK_INT_EQ( lst0.size(), 3 );
 
   // Call the copy constructor
 
-  SListInt lst1 = lst0;
+  SListIObj lst1 = lst0;
 
   // Reverse list 0 to make sure it does not change list 1
 
@@ -146,7 +146,7 @@ void test_case_6_copy()
 
   int ref0[] = { 12, 11, 10 };
   for ( int i = 0; i < 3; i++ ) {
-    ECE2400_CHECK_INT_EQ( *lst0.at(i), ref0[i] );
+    ECE2400_CHECK_TRUE( *lst0.at(i) == Integer(ref0[i]) );
   }
 
   // Verify list 1
@@ -155,7 +155,7 @@ void test_case_6_copy()
 
   int ref1[] = { 10, 11, 12 };
   for ( int i = 0; i < 3; i++ ) {
-    ECE2400_CHECK_INT_EQ( *lst1.at(i), ref1[i] );
+    ECE2400_CHECK_TRUE( *lst1.at(i) == Integer(ref1[i]) );
   }
 }
 
@@ -168,16 +168,16 @@ void test_case_7_assign()
 {
   std::printf( "\n%s\n", __func__ );
 
-  SListInt lst0;
-  lst0.push_front(12);
-  lst0.push_front(11);
-  lst0.push_front(10);
+  SListIObj lst0;
+  lst0.push_front( Integer(12) );
+  lst0.push_front( Integer(11) );
+  lst0.push_front( Integer(10) );
 
   ECE2400_CHECK_INT_EQ( lst0.size(), 3 );
 
   // Call the default constructor
 
-  SListInt lst1;
+  SListIObj lst1;
 
   // Call the assignment operator
 
@@ -193,7 +193,7 @@ void test_case_7_assign()
 
   int ref0[] = { 12, 11, 10 };
   for ( int i = 0; i < 3; i++ ) {
-    ECE2400_CHECK_INT_EQ( *lst0.at(i), ref0[i] );
+    ECE2400_CHECK_TRUE( *lst0.at(i) == Integer(ref0[i]) );
   }
 
   // Verify list 1
@@ -202,7 +202,7 @@ void test_case_7_assign()
 
   int ref1[] = { 10, 11, 12 };
   for ( int i = 0; i < 3; i++ ) {
-    ECE2400_CHECK_INT_EQ( *lst1.at(i), ref1[i] );
+    ECE2400_CHECK_TRUE( *lst1.at(i) == Integer(ref1[i]) );
   }
 }
 
@@ -215,10 +215,10 @@ void test_case_8_self_assign()
 {
   std::printf( "\n%s\n", __func__ );
 
-  SListInt lst;
-  lst.push_front(12);
-  lst.push_front(11);
-  lst.push_front(10);
+  SListIObj lst;
+  lst.push_front( Integer(12) );
+  lst.push_front( Integer(11) );
+  lst.push_front( Integer(10) );
 
   ECE2400_CHECK_INT_EQ( lst.size(), 3 );
 
@@ -232,7 +232,7 @@ void test_case_8_self_assign()
 
   int ref[] = { 10, 11, 12 };
   for ( int i = 0; i < 3; i++ ) {
-    ECE2400_CHECK_INT_EQ( *lst.at(i), ref[i] );
+    ECE2400_CHECK_TRUE( *lst.at(i) == Integer(ref[i]) );
   }
 }
 
@@ -245,17 +245,17 @@ void test_case_9_reverse_v2()
 {
   std::printf( "\n%s\n", __func__ );
 
-  SListInt lst;
-  lst.push_front(12);
-  lst.push_front(11);
-  lst.push_front(10);
+  SListIObj lst;
+  lst.push_front( Integer(12) );
+  lst.push_front( Integer(11) );
+  lst.push_front( Integer(10) );
   lst.reverse_v2();
 
   ECE2400_CHECK_INT_EQ( lst.size(), 3 );
 
   int ref[] = { 12, 11, 10 };
   for ( int i = 0; i < 3; i++ ) {
-    ECE2400_CHECK_INT_EQ( *lst.at(i), ref[i] );
+    ECE2400_CHECK_TRUE( *lst.at(i) == Integer(ref[i]) );
   }
 }
 
@@ -268,15 +268,15 @@ void test_case_10_reverse_longer_v2()
 {
   std::printf( "\n%s\n", __func__ );
 
-  SListInt lst;
+  SListIObj lst;
   for ( int i = 0; i < 12; i++ )
-    lst.push_front(i);
+    lst.push_front( Integer(i) );
   lst.reverse_v2();
 
   ECE2400_CHECK_INT_EQ( lst.size(), 12 );
 
   for ( int i = 0; i < 12; i++ ) {
-    ECE2400_CHECK_INT_EQ( *lst.at(i), i );
+    ECE2400_CHECK_TRUE( *lst.at(i) == Integer(i) );
   }
 }
 
@@ -289,16 +289,16 @@ void test_case_11_reverse_reverse_v2()
 {
   std::printf( "\n%s\n", __func__ );
 
-  SListInt lst;
+  SListIObj lst;
   for ( int i = 0; i < 12; i++ )
-    lst.push_front(i);
+    lst.push_front( Integer(i) );
   lst.reverse_v2();
   lst.reverse_v2();
 
   ECE2400_CHECK_INT_EQ( lst.size(), 12 );
 
   for ( int i = 0; i < 12; i++ ) {
-    ECE2400_CHECK_INT_EQ( *lst.at(i), 12-i-1 );
+    ECE2400_CHECK_TRUE( *lst.at(i) == Integer(12-i-1) );
   }
 }
 
@@ -308,10 +308,10 @@ void test_case_11_reverse_reverse_v2()
 
 int main( int argc, char** argv )
 {
-  __n = ( argc == 1 ) ? 0 : std::atoi( argv[1] );
+  __n = ( argc == 1 ) ? 0 : atoi( argv[1] );
 
-  if ( ( __n <= 0 ) || ( __n == 1  ) ) test_case_1_push_front();
-  if ( ( __n <= 0 ) || ( __n == 2  ) ) test_case_2_push_front_longer();
+  if ( ( __n == 0 ) || ( __n == 1 ) ) test_case_1_push_front();
+  if ( ( __n == 0 ) || ( __n == 2 ) ) test_case_2_push_front_longer();
   if ( ( __n <= 0 ) || ( __n == 3  ) ) test_case_3_reverse_v1();
   if ( ( __n <= 0 ) || ( __n == 4  ) ) test_case_4_reverse_longer_v1();
   if ( ( __n <= 0 ) || ( __n == 5  ) ) test_case_5_reverse_reverse_v1();
@@ -322,6 +322,5 @@ int main( int argc, char** argv )
   if ( ( __n <= 0 ) || ( __n == 10 ) ) test_case_10_reverse_longer_v2();
   if ( ( __n <= 0 ) || ( __n == 11 ) ) test_case_11_reverse_reverse_v2();
 
-  printf( "\n" );
-  return __failed;
+  return 0;
 }

@@ -6,8 +6,6 @@
 #ifndef SLIST_INT_H
 #define SLIST_INT_H
 
-#include <cstddef>
-
 class SListInt
 {
   //----------------------------------------------------------------------
@@ -35,8 +33,10 @@ class SListInt
  public:
 
   void push_front( int v );
-  int  at( size_t idx ) const;
-  void reverse();
+  int  size() const;
+  int* at( int idx ) const;
+  void reverse_v1();
+  void reverse_v2();
   void print() const;
 
   //----------------------------------------------------------------------

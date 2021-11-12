@@ -18,12 +18,14 @@ set(SRC_FILES
 set(TEST_ALL_FILES
   slist-int-directed-test.cc
   types-dpoly-directed-test.cc
-  slist-iobj-directed-test.cc
+  slist-dpoly-directed-test.cc
 )
 
 set(EVAL_FILES
-  slist-int-eval.cc
-  slist-iobj-eval.cc
+  slist-int-reverse-v1-eval.cc
+  slist-int-reverse-v2-eval.cc
+  slist-dpoly-reverse-v1-eval.cc
+  slist-dpoly-reverse-v2-eval.cc
 )
 
 #=========================================================================
@@ -45,7 +47,7 @@ endfunction()
 # Set up environment
 #-------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8...3.19)
 enable_language(CXX)
 enable_testing()
 project(sec7)
