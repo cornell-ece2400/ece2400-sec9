@@ -50,7 +50,7 @@ endfunction()
 cmake_minimum_required(VERSION 2.8...3.19)
 enable_language(CXX)
 enable_testing()
-project(sec7)
+project(sec09)
 
 # Set and cache the build type
 set(default_build_type "debug")

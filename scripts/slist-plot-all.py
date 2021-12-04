@@ -1,8 +1,7 @@
 #=========================================================================
-# slist-int-reverse-v1-v2-ploy.py
+# slist-plot-all.py
 #=========================================================================
-# Simple python script for plotting measured execution time and doing a
-# polynomial fit using matplotlib and numpy.
+# Simple python script for plotting all of the results on a single plot.
 #
 # Author : Christopher Batten
 # Date   : October 14, 2021
@@ -52,10 +51,10 @@ fig, ax = plt.subplots()
 
 # Plot the data
 
-plot_data( ax, "slist-int-reverse-v1-eval.txt",   'o', "SListInt::reverse_v1"   )
-plot_data( ax, "slist-int-reverse-v2-eval.txt",   '^', "SListInt::reverse_v2"   )
-plot_data( ax, "slist-dpoly-reverse-v1-eval.txt", 's', "SListDpoly::reverse_v1" )
-plot_data( ax, "slist-dpoly-reverse-v2-eval.txt", 'x', "SListDpoly::reverse_v2" )
+plot_data( ax, "slist-int-reverse-v1-eval.txt",   'o', "SListInt::reverse_v1"  )
+plot_data( ax, "slist-int-reverse-v2-eval.txt",   '^', "SListInt::reverse_v2"  )
+plot_data( ax, "slist-dpoly-reverse-v1-eval.txt", 's', "SListIObj::reverse_v1" )
+plot_data( ax, "slist-dpoly-reverse-v2-eval.txt", 'x', "SListIObj::reverse_v2" )
 
 # Add some labels, grid, an save to a PDF
 
@@ -63,5 +62,5 @@ ax.set( xlabel="Input Array Size", ylabel="Measured Execution Time (s)" )
 ax.grid()
 ax.legend()
 
-fig.savefig( "slist-reverse-plot.pdf", bbox_inches='tight' )
+fig.savefig( "slist-plot-all.pdf", bbox_inches='tight' )
 

@@ -1,5 +1,5 @@
 #=========================================================================
-# slist-dpoly-reverse-v2-ploy.py
+# slist-reverse-plot.py
 #=========================================================================
 # Simple python script for plotting measured execution time and doing a
 # polynomial fit using matplotlib and numpy.
@@ -19,12 +19,22 @@ import numpy as np
 
 # Import other Python packages
 
+import sys
 import os
+
+# Command line argument specifies file
+
+if len(sys.argv) != 2:
+  print "must specify file to plot on command line!"
+  exit(1)
+
+filename_txt = sys.argv[1]
+filename_pdf = os.path.splitext(filename_txt)[0] + ".pdf"
 
 # Make sure results file exists
 
-if not os.path.exists("slist-dpoly-reverse-v2-eval.txt"):
-  print "slist-dpoly-reverse-v2-eval.txt does not exist!"
+if not os.path.exists(filename_txt):
+  print filename_txt, "does not exist!"
   exit(1)
 
 # Arrays to store the size of the input array and corresponding measured
@@ -35,7 +45,7 @@ t = []
 
 # Read data from results file
 
-with open("slist-dpoly-reverse-v2-eval.txt") as f:
+with open(filename_txt) as f:
   for line in f:
     if "Fill and reverse with size" in line:
       n.append( float(line.split()[5]) )
@@ -75,5 +85,5 @@ ax.plot( n, trend2(n), '--' )
 
 ax.set( xlabel="Input Array Size", ylabel="Measured Execution Time (s)" )
 ax.grid()
-fig.savefig( "slist-dpoly-reverse-v2-plot.pdf", bbox_inches='tight' )
+fig.savefig( filename_pdf, bbox_inches='tight' )
 

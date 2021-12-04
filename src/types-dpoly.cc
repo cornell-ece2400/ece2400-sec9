@@ -21,25 +21,27 @@ bool operator<( const IObject& lhs, const IObject& rhs )
 }
 
 //------------------------------------------------------------------------
-// Integer Constructors / Destructors
+// Integer
 //------------------------------------------------------------------------
 
-Integer::Integer()                   : m_data(0)        {}
-Integer::Integer( int data )         : m_data(data)     {}
-Integer::~Integer()                                     {}
+Integer::Integer()
+{
+  m_data = 0;
+}
 
-//------------------------------------------------------------------------
-// Integer::clone
-//------------------------------------------------------------------------
+Integer::Integer( int data )
+{
+  m_data = data;
+}
 
 Integer* Integer::clone() const
 {
+  //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+  // Implement clone
+  //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
   return new Integer( *this );
 }
-
-//------------------------------------------------------------------------
-// Integer::eq
-//------------------------------------------------------------------------
 
 bool Integer::eq( const IObject& rhs ) const
 {
@@ -48,10 +50,6 @@ bool Integer::eq( const IObject& rhs ) const
   else                    return ( m_data == rhs_p->m_data );
 }
 
-//------------------------------------------------------------------------
-// Integer::lt
-//------------------------------------------------------------------------
-
 bool Integer::lt( const IObject& rhs ) const
 {
   const Integer* rhs_p = dynamic_cast<const Integer*>( &rhs );
@@ -59,47 +57,33 @@ bool Integer::lt( const IObject& rhs ) const
   else                    return ( m_data < rhs_p->m_data );
 }
 
-//------------------------------------------------------------------------
-// Integer::print
-//------------------------------------------------------------------------
-
 void Integer::print() const
 {
   std::printf( "%d", m_data );
 }
 
 //------------------------------------------------------------------------
-// Integer overloaded assignment operator
+// Double
 //------------------------------------------------------------------------
 
-Integer& Integer::operator=( const IObject& rhs )
+Double::Double()
 {
-  const Integer* rhs_p = dynamic_cast<const Integer*>( &rhs );
-  if ( rhs_p != nullptr )
-    m_data = rhs_p->m_data;
-  return *this;
+  m_data = 0.0;
 }
 
-//------------------------------------------------------------------------
-// Double Constructors / Destructors
-//------------------------------------------------------------------------
-
-Double::Double()                  : m_data(0.0)      {}
-Double::Double( double data     ) : m_data(data)     {}
-Double::~Double()                                    {}
-
-//------------------------------------------------------------------------
-// Double::clone
-//------------------------------------------------------------------------
+Double::Double( double data )
+{
+  m_data = data;
+}
 
 Double* Double::clone() const
 {
+  //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+  // Implement clone
+  //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
   return new Double( *this );
 }
-
-//------------------------------------------------------------------------
-// Double::eq
-//------------------------------------------------------------------------
 
 bool Double::eq( const IObject& rhs ) const
 {
@@ -108,10 +92,6 @@ bool Double::eq( const IObject& rhs ) const
   else                    return ( m_data == rhs_p->m_data );
 }
 
-//------------------------------------------------------------------------
-// Double::lt
-//------------------------------------------------------------------------
-
 bool Double::lt( const IObject& rhs ) const
 {
   const Double* rhs_p = dynamic_cast<const Double*>( &rhs );
@@ -119,48 +99,35 @@ bool Double::lt( const IObject& rhs ) const
   else                    return ( m_data < rhs_p->m_data );
 }
 
-//------------------------------------------------------------------------
-// Double::print
-//------------------------------------------------------------------------
-
 void Double::print() const
 {
   std::printf( "%f", m_data );
 }
 
 //------------------------------------------------------------------------
-// Double overloaded assignment operator
+// Complex
 //------------------------------------------------------------------------
 
-Double& Double::operator=( const IObject& rhs )
+Complex::Complex()
 {
-  printf("here\n");
-  const Double* rhs_p = dynamic_cast<const Double*>( &rhs );
-  if ( rhs_p != nullptr )
-    m_data = rhs_p->m_data;
-  return *this;
+  m_real = 0.0;
+  m_imag = 0.0;
 }
 
-//------------------------------------------------------------------------
-// Complex Constructors / Destructors
-//------------------------------------------------------------------------
-
-Complex::Complex()                           : m_real(0.0),  m_imag(0.0)  {}
-Complex::Complex( double real, double imag ) : m_real(real), m_imag(imag) {}
-Complex::~Complex()                                                       {}
-
-//------------------------------------------------------------------------
-// Complex::clone
-//------------------------------------------------------------------------
+Complex::Complex( double real, double imag )
+{
+  m_real = real;
+  m_imag = imag;
+}
 
 Complex* Complex::clone() const
 {
+  //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+  // Implement clone
+  //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
   return new Complex( *this );
 }
-
-//------------------------------------------------------------------------
-// Complex::eq
-//------------------------------------------------------------------------
 
 bool Complex::eq( const IObject& rhs ) const
 {
@@ -171,10 +138,6 @@ bool Complex::eq( const IObject& rhs ) const
     return ( m_real == rhs_p->m_real ) && ( m_imag == rhs_p->m_imag );
 }
 
-//------------------------------------------------------------------------
-// Complex::lt
-//------------------------------------------------------------------------
-
 bool Complex::lt( const IObject& rhs ) const
 {
   const Complex* rhs_p = dynamic_cast<const Complex*>( &rhs );
@@ -184,27 +147,8 @@ bool Complex::lt( const IObject& rhs ) const
     return ( m_real < rhs_p->m_real ) && ( m_imag < rhs_p->m_imag );
 }
 
-
-//------------------------------------------------------------------------
-// Complex::print
-//------------------------------------------------------------------------
-
 void Complex::print() const
 {
-  std::printf( "%f + %fi", m_real, m_imag );
-}
-
-//------------------------------------------------------------------------
-// Complex overloaded assignment operator
-//------------------------------------------------------------------------
-
-Complex& Complex::operator=( const IObject& rhs )
-{
-  const Complex* rhs_p = dynamic_cast<const Complex*>( &rhs );
-  if ( rhs_p != nullptr ) {
-    m_real = rhs_p->m_real;
-    m_imag = rhs_p->m_imag;
-  }
-  return *this;
+  std::printf( "%f+%fi", m_real, m_imag );
 }
 

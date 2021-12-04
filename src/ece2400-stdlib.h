@@ -158,21 +158,6 @@ void  __ece2400_check_and_print_double_binop(const char*, int, const char*, cons
 
 namespace ece2400
 {
-
-  //----------------------------------------------------------------------
-  // distance_int
-  //----------------------------------------------------------------------
-  // Return the distance between the two given integers.
-
-  uint_t distance_int( int a, int b );
-
-  //----------------------------------------------------------------------
-  // print_array
-  //----------------------------------------------------------------------
-  // Prints the contents in an integer array.
-
-  void print_array( int* a, size_t size );
-
   //----------------------------------------------------------------------
   // sort
   //----------------------------------------------------------------------
@@ -201,7 +186,6 @@ namespace ece2400
   // Return the elapased time in seconds.
 
   double timer_get_elapsed();
-
 }
 
 #endif  // ECE2400_STDLIB_H

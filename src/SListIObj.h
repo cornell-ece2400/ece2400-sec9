@@ -20,12 +20,13 @@ class SListIObj
   ~SListIObj();
 
   //----------------------------------------------------------------------
-  // Copy constructor and assignment operator
+  // Copy constructor, swap, assignment operator
   //----------------------------------------------------------------------
 
  public:
 
   SListIObj( const SListIObj& lst );
+  void swap( SListIObj& lst );
   SListIObj& operator=( const SListIObj& lst );
 
   //----------------------------------------------------------------------
@@ -37,6 +38,7 @@ class SListIObj
   void      push_front( const IObject& v );
   int       size() const;
   IObject*  at( int idx ) const;
+  IObject*& at( int idx );
   void      reverse_v1();
   void      reverse_v2();
   void      print() const;
@@ -47,21 +49,15 @@ class SListIObj
 
  private:
 
-  struct Node                // nested struct declaration
+  struct Node
   {
     IObject* obj_p;
     Node*    next_p;
   };
 
-  Node* m_head_p;            // member field
+  Node* m_head_p;
 
 };
-
-//------------------------------------------------------------------------
-// Include inline definitions
-//------------------------------------------------------------------------
-
-#include "SListIObj.inl"
 
 #endif /* SLIST_IOBJ_H */
 

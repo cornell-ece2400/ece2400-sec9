@@ -6,10 +6,10 @@
 // run times.
 //
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "SListInt.h"
 #include "ece2400-stdlib.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 //------------------------------------------------------------------------
 // print_help
@@ -65,7 +65,7 @@ int main( int argc, char** argv )
 
   int ref = 0;
   for ( int i = 0; i < size; i++ ) {
-    if ( !(*lst_verify.at(i) == ref) ) {
+    if ( !(lst_verify.at(i) == ref) ) {
       printf( "Error: List not reversed correctly!\n" );
       return 1;
     }

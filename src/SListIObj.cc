@@ -1,11 +1,10 @@
 //========================================================================
 // SListIObj.cc
 //========================================================================
-// Implementation for ListIObj
+// Implementation for SListIObj
 
-#include <cstdio>
 #include "SListIObj.h"
-#include "ece2400-stdlib.h"
+#include <cstdio>
 
 //------------------------------------------------------------------------
 // SListIObj Default Constructor
@@ -28,6 +27,9 @@ SListIObj::~SListIObj()
     //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''
     // Delete the node
     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    delete m_head_p->obj_p;
+    delete m_head_p;
 
     m_head_p = temp_p;
   }
@@ -61,40 +63,33 @@ SListIObj::SListIObj( const SListIObj& lst )
 }
 
 //------------------------------------------------------------------------
+// SListIObj Swap
+//------------------------------------------------------------------------
+
+void SListIObj::swap( SListIObj& lst )
+{
+  //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+  // Implement swap
+  //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+  Node* tmp_p  = m_head_p;
+  m_head_p     = lst.m_head_p;
+  lst.m_head_p = tmp_p;
+}
+
+//------------------------------------------------------------------------
 // SListIObj Overloaded Assignment Operator
 //------------------------------------------------------------------------
 
 SListIObj& SListIObj::operator=( const SListIObj& lst )
 {
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  // Handle self-assignment correctly!
+  // Implement operator=
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-  // Delete all nodes in this list.
-
-  while ( m_head_p != nullptr ) {
-    Node* temp_p = m_head_p->next_p;
-    delete m_head_p->obj_p;
-    delete m_head_p;
-    m_head_p = temp_p;
-  }
-
-  // Iterate through each element of the given lst and use push_front
-  // to add it to this list.
-
-  Node* curr_p = lst.m_head_p;
-  while ( curr_p != nullptr ) {
-    push_front( *curr_p->obj_p );
-    curr_p = curr_p->next_p;
-  }
-
-  // We now have all elements in this list, but they are in the reverse
-  // order, so we can call reverse to ensure that this list is an exact
-  // copy of the given list.
-
-  reverse_v1();
-
-  return *this;
+  SListIObj tmp( lst ); // create temporary copy of given list
+  swap( tmp );          // swap this list with temporary list
+  return *this;         // destructor called for temporary list
 }
 
 //------------------------------------------------------------------------
@@ -106,6 +101,11 @@ void SListIObj::push_front( const IObject& v )
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement push_front
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+  Node* new_node_p   = new Node;
+  new_node_p->obj_p  = v.clone();
+  new_node_p->next_p = m_head_p;
+  m_head_p           = new_node_p;
 }
 
 //------------------------------------------------------------------------
@@ -114,14 +114,15 @@ void SListIObj::push_front( const IObject& v )
 
 int SListIObj::size() const
 {
-  int   size   = 0;
+  int n = 0;
+
   Node* curr_p = m_head_p;
   while ( curr_p != nullptr ) {
-    size++;
+    n++;
     curr_p = curr_p->next_p;
   }
 
-  return size;
+  return n;
 }
 
 //------------------------------------------------------------------------
@@ -130,10 +131,24 @@ int SListIObj::size() const
 
 IObject* SListIObj::at( int idx ) const
 {
-  //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  // Implement at
-  //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  return nullptr;
+  Node* curr_p = m_head_p;
+  for ( int i = 0; i < idx; i++ )
+    curr_p = curr_p->next_p;
+
+  return curr_p->obj_p;
+}
+
+//------------------------------------------------------------------------
+// SListIObj::at
+//------------------------------------------------------------------------
+
+IObject*& SListIObj::at( int idx )
+{
+  Node* curr_p = m_head_p;
+  for ( int i = 0; i < idx; i++ )
+    curr_p = curr_p->next_p;
+
+  return curr_p->obj_p;
 }
 
 //------------------------------------------------------------------------
@@ -153,6 +168,16 @@ void SListIObj::reverse_v1()
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   // Implement reverse_v1
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+  int n = size();
+  for ( int i = 0; i < n/2; i++ ) {
+    int lo = i;
+    int hi = (n-1)-i;
+
+    IObject* tmp = at(lo);
+    at(lo)       = at(hi);
+    at(hi)       = tmp;
+  }
 }
 
 //------------------------------------------------------------------------
@@ -160,40 +185,29 @@ void SListIObj::reverse_v1()
 //------------------------------------------------------------------------
 // Steps for this algorithm:
 //
-//  1. Use the size member function to find number items in list
-//  2. Allocate a new array of integers on the heap with size items
-//  3. Iterate through list and copy each item to the array
-//  4. Iterate through list and copy each item from array in reverse order
-//  5. Delete temporary array
+//  1. Create temporary singly linked list
+//  2. Push front all values from this list onto temporary list
+//  3. Swap this list with the temporary list
 //
 
 void SListIObj::reverse_v2()
 {
-  // 1. Get the number of items in list
-
-  int n = size();
-
-  // 2. Allocate a new array of IObject pointers on the heap with size items
-
-  IObject** tmp = new IObject*[n];
-
   //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  // Implement step 3
+  // Implement reverse_v2
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-  // 4. Iterate through list and copy each item from array in reverse
+  // Step 1. Create temporary list
+  SListIObj lst;
 
-  int   idx1    = 0;
-  Node* curr1_p = m_head_p;
-  while ( curr1_p != nullptr ) {
-    curr1_p->obj_p = tmp[n-idx1-1];
-    curr1_p        = curr1_p->next_p;
-    idx1++;
+  // Step 2. Push front all values from this list onto temporary list
+  Node* curr_p = m_head_p;
+  while ( curr_p != nullptr ) {
+    lst.push_front( *(curr_p->obj_p) );
+    curr_p = curr_p->next_p;
   }
 
-  // 5. Delete the temporary array
-
-  delete[] tmp;
+  // Step 3. Swap this list with temporary list
+  swap( lst );
 }
 
 //------------------------------------------------------------------------

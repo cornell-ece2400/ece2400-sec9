@@ -18,12 +18,13 @@ class SListInt
   ~SListInt();
 
   //----------------------------------------------------------------------
-  // Copy constructor and assignment operator
+  // Copy constructor, swap, assignment operator
   //----------------------------------------------------------------------
 
  public:
 
   SListInt( const SListInt& lst );
+  void swap( SListInt& lst );
   SListInt& operator=( const SListInt& lst );
 
   //----------------------------------------------------------------------
@@ -34,7 +35,8 @@ class SListInt
 
   void push_front( int v );
   int  size() const;
-  int* at( int idx ) const;
+  int  at( int idx ) const;
+  int& at( int idx );
   void reverse_v1();
   void reverse_v2();
   void print() const;
@@ -45,21 +47,15 @@ class SListInt
 
  private:
 
-  struct Node                // nested struct declaration
+  struct Node
   {
     int   value;
     Node* next_p;
   };
 
-  Node* m_head_p;            // member field
+  Node* m_head_p;
 
 };
-
-//------------------------------------------------------------------------
-// Include inline definitions
-//------------------------------------------------------------------------
-
-#include "SListInt.inl"
 
 #endif /* SLIST_INT_H */
 

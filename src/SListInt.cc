@@ -1,11 +1,10 @@
 //========================================================================
 // SListInt.cc
 //========================================================================
-// Implementation for ListInt
+// Implementation for SListInt
 
-#include <cstdio>
-#include <cassert>
 #include "SListInt.h"
+#include <cstdio>
 
 //------------------------------------------------------------------------
 // SListInt Default Constructor
@@ -57,40 +56,25 @@ SListInt::SListInt( const SListInt& lst )
 }
 
 //------------------------------------------------------------------------
+// SListInt Swap
+//------------------------------------------------------------------------
+
+void SListInt::swap( SListInt& lst )
+{
+  Node* tmp_p  = m_head_p;
+  m_head_p     = lst.m_head_p;
+  lst.m_head_p = tmp_p;
+}
+
+//------------------------------------------------------------------------
 // SListInt Overloaded Assignment Operator
 //------------------------------------------------------------------------
 
 SListInt& SListInt::operator=( const SListInt& lst )
 {
-  // Handle self-assignment correctly!
-
-  if ( this == &lst )
-    return *this;
-
-  // Delete all nodes in this list.
-
-  while ( m_head_p != nullptr ) {
-    Node* temp_p = m_head_p->next_p;
-    delete m_head_p;
-    m_head_p = temp_p;
-  }
-
-  // Iterate through each element of the given lst and use push_front
-  // to add it to this list.
-
-  Node* curr_p = lst.m_head_p;
-  while ( curr_p != nullptr ) {
-    push_front( curr_p->value );
-    curr_p = curr_p->next_p;
-  }
-
-  // We now have all elements in this list, but they are in the reverse
-  // order, so we can call reverse to ensure that this list is an exact
-  // copy of the given list.
-
-  reverse_v1();
-
-  return *this;
+  SListInt tmp( lst ); // create temporary copy of given list
+  swap( tmp );         // swap this list with temporary list
+  return *this;        // destructor called for temporary list
 }
 
 //------------------------------------------------------------------------
@@ -111,85 +95,92 @@ void SListInt::push_front( int v )
 
 int SListInt::size() const
 {
-  int   size   = 0;
+  int n = 0;
+
   Node* curr_p = m_head_p;
   while ( curr_p != nullptr ) {
-    size++;
+    n++;
     curr_p = curr_p->next_p;
   }
 
-  return size;
+  return n;
 }
 
 //------------------------------------------------------------------------
 // SListInt::at
 //------------------------------------------------------------------------
 
-int* SListInt::at( int idx ) const
+int SListInt::at( int idx ) const
 {
   Node* curr_p = m_head_p;
   for ( int i = 0; i < idx; i++ )
     curr_p = curr_p->next_p;
 
-  return &curr_p->value;
+  return curr_p->value;
+}
+
+//------------------------------------------------------------------------
+// SListInt::at
+//------------------------------------------------------------------------
+
+int& SListInt::at( int idx )
+{
+  Node* curr_p = m_head_p;
+  for ( int i = 0; i < idx; i++ )
+    curr_p = curr_p->next_p;
+
+  return curr_p->value;
 }
 
 //------------------------------------------------------------------------
 // SListInt::reverse_v1
 //------------------------------------------------------------------------
+// Pseudocode for this algorithm:
+//
+//  def reverse( x, n ):
+//    for i in 0 to n/2:
+//      lo = i
+//      hi = (n-1) - i
+//      swap( x[lo], x[hi] )
+//
 
 void SListInt::reverse_v1()
 {
   int n = size();
-
   for ( int i = 0; i < n/2; i++ ) {
     int lo = i;
-    int hi = (n-1) - i;
+    int hi = (n-1)-i;
 
-    // swap lo and hi elements
-    int tmp = *at(lo);
-    *at(lo) = *at(hi);
-    *at(hi) = tmp;
+    int tmp = at(lo);
+    at(lo)  = at(hi);
+    at(hi)  = tmp;
   }
 }
 
 //------------------------------------------------------------------------
 // SListInt::reverse_v2
 //------------------------------------------------------------------------
+// Steps for this algorithm:
+//
+//  1. Create temporary singly linked list
+//  2. Push front all values from this list onto temporary list
+//  3. Swap this list with the temporary list
+//
 
 void SListInt::reverse_v2()
 {
-  // 1. Get the number of items in list
+  // Step 1. Create temporary list
+  SListInt lst;
 
-  int n = size();
-
-  // 2. Allocate a new array of integers on the heap with size items
-
-  int* tmp = new int[n];
-
-  // 3. Iterate through the list and copy each item to the array
-
-  int idx = 0;
+  // Step 2. Push front all values from this list onto temporary list
   Node* curr_p = m_head_p;
   while ( curr_p != nullptr ) {
-    tmp[idx] = curr_p->value;
-    curr_p   = curr_p->next_p;
-    idx++;
+    lst.push_front( curr_p->value );
+    curr_p = curr_p->next_p;
   }
 
-  // 4. Iterate through list and copy each item from array in reverse
-
-  idx    = 0;
-  curr_p = m_head_p;
-  while ( curr_p != nullptr ) {
-    curr_p->value = tmp[n-idx-1];
-    curr_p        = curr_p->next_p;
-    idx++;
-  }
-
-  // 5. Delete the temporary array
-
-  delete[] tmp;
+  // Step 3. Swap this list with temporary list
+  swap( lst );
 }
 
 //------------------------------------------------------------------------
