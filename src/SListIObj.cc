@@ -28,8 +28,6 @@ SListIObj::~SListIObj()
     // Delete the node
     //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-    delete m_head_p->obj_p;
-    delete m_head_p;
 
     m_head_p = temp_p;
   }
@@ -72,9 +70,7 @@ void SListIObj::swap( SListIObj& lst )
   // Implement swap
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-  Node* tmp_p  = m_head_p;
-  m_head_p     = lst.m_head_p;
-  lst.m_head_p = tmp_p;
+
 }
 
 //------------------------------------------------------------------------
@@ -87,9 +83,7 @@ SListIObj& SListIObj::operator=( const SListIObj& lst )
   // Implement operator=
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-  SListIObj tmp( lst ); // create temporary copy of given list
-  swap( tmp );          // swap this list with temporary list
-  return *this;         // destructor called for temporary list
+
 }
 
 //------------------------------------------------------------------------
@@ -102,10 +96,7 @@ void SListIObj::push_front( const IObject& v )
   // Implement push_front
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-  Node* new_node_p   = new Node;
-  new_node_p->obj_p  = v.clone();
-  new_node_p->next_p = m_head_p;
-  m_head_p           = new_node_p;
+
 }
 
 //------------------------------------------------------------------------
@@ -169,15 +160,7 @@ void SListIObj::reverse_v1()
   // Implement reverse_v1
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-  int n = size();
-  for ( int i = 0; i < n/2; i++ ) {
-    int lo = i;
-    int hi = (n-1)-i;
 
-    IObject* tmp = at(lo);
-    at(lo)       = at(hi);
-    at(hi)       = tmp;
-  }
 }
 
 //------------------------------------------------------------------------
@@ -197,17 +180,11 @@ void SListIObj::reverse_v2()
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
   // Step 1. Create temporary list
-  SListIObj lst;
 
   // Step 2. Push front all values from this list onto temporary list
-  Node* curr_p = m_head_p;
-  while ( curr_p != nullptr ) {
-    lst.push_front( *(curr_p->obj_p) );
-    curr_p = curr_p->next_p;
-  }
 
   // Step 3. Swap this list with temporary list
-  swap( lst );
+
 }
 
 //------------------------------------------------------------------------
