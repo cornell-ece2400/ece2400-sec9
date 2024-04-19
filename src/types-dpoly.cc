@@ -40,7 +40,6 @@ Integer* Integer::clone() const
   // Implement clone
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-  return new Integer( *this );
 }
 
 bool Integer::eq( const IObject& rhs ) const
@@ -82,7 +81,6 @@ Double* Double::clone() const
   // Implement clone
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-  return new Double( *this );
 }
 
 bool Double::eq( const IObject& rhs ) const
@@ -126,7 +124,6 @@ Complex* Complex::clone() const
   // Implement clone
   //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-  return new Complex( *this );
 }
 
 bool Complex::eq( const IObject& rhs ) const
